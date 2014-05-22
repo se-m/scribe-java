@@ -1,6 +1,7 @@
 package org.scribe.services;
 
-import org.apache.commons.codec.binary.*;
+//import org.apache.commons.codec.binary.*;
+import util.Base64;
 import org.scribe.exceptions.*;
 
 import java.io.UnsupportedEncodingException;
@@ -11,6 +12,8 @@ public class CommonsEncoder extends Base64Encoder
   @Override
   public String encode(byte[] bytes)
   {
+	  return "";
+	/*
     try
     {
       return new String(Base64.encodeBase64(bytes), "UTF-8");
@@ -19,6 +22,7 @@ public class CommonsEncoder extends Base64Encoder
     {
       throw new OAuthSignatureException("Can't perform base64 encoding", e);
     }
+    */
   }
 
   @Override
@@ -29,6 +33,8 @@ public class CommonsEncoder extends Base64Encoder
 
   public static boolean isPresent()
   {
+	  return false;
+	 /*
     try
     {
       Class.forName("org.apache.commons.codec.binary.Base64");
@@ -38,5 +44,6 @@ public class CommonsEncoder extends Base64Encoder
     {
       return false;
     }
+    */
   }
 }

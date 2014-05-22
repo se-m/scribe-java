@@ -28,7 +28,7 @@ public abstract class DefaultApi20 implements Api
    * 
    * @return access token extractor
    */
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new TokenExtractor20Impl();
   }

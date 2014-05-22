@@ -28,7 +28,7 @@ public abstract class DefaultApi10a implements Api
    * 
    * @return access token extractor
    */
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new TokenExtractorImpl();
   }
@@ -58,7 +58,7 @@ public abstract class DefaultApi10a implements Api
    * 
    * @return request token extractor
    */
-  public RequestTokenExtractor getRequestTokenExtractor()
+  public TokenExtractor getRequestTokenExtractor()
   {
     return new TokenExtractorImpl();
   }

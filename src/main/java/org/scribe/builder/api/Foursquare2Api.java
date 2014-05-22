@@ -22,7 +22,7 @@ public class Foursquare2Api extends DefaultApi20
   }
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new JsonTokenExtractor();
   }

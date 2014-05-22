@@ -14,7 +14,7 @@ public class KaixinApi20 extends DefaultApi20
   private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new JsonTokenExtractor();
   }

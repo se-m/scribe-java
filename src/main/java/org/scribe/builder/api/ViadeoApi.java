@@ -1,6 +1,6 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.AccessTokenExtractor;
+import org.scribe.extractors.TokenExtractor;
 import org.scribe.model.OAuthConfig;
 import org.scribe.utils.OAuthEncoder;
 import org.scribe.utils.Preconditions;
@@ -13,7 +13,7 @@ public class ViadeoApi extends DefaultApi20
   private static final String SCOPED_AUTHORIZE_URL = AUTHORIZE_URL + "&scope=%s";
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
     return new JsonTokenExtractor();
   }

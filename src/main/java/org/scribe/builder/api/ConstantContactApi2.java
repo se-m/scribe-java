@@ -29,9 +29,9 @@ public class ConstantContactApi2 extends DefaultApi20
   }
 
   @Override
-  public AccessTokenExtractor getAccessTokenExtractor()
+  public TokenExtractor getAccessTokenExtractor()
   {
-    return new AccessTokenExtractor()
+    return new TokenExtractor()
     {
 
       public Token extract(String response)

@@ -6,14 +6,26 @@ import org.scribe.exceptions.*;
 import org.scribe.model.*;
 import org.scribe.utils.*;
 
-public class JsonTokenExtractor implements AccessTokenExtractor
+public class JsonTokenExtractor implements TokenExtractor
 {
-  private Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
+  public static final Pattern accessTokenPattern = Pattern.compile("\"access_token\":\\s*\"(\\S*?)\"");
+  public static final Pattern refreshTokenPattern = Pattern.compile("\"refresh_token\":\\s*\"(\\S*?)\"");
+  
+  private Pattern tokenPattern;
+
+  public JsonTokenExtractor (Pattern aTokenPattern){
+	  tokenPattern=aTokenPattern;
+  }
+  
+  public JsonTokenExtractor (){
+	  tokenPattern = accessTokenPattern;
+  }
+
 
   public Token extract(String response)
   {
     Preconditions.checkEmptyString(response, "Cannot extract a token from a null or empty String");
-    Matcher matcher = accessTokenPattern.matcher(response);
+    Matcher matcher = tokenPattern.matcher(response);
     if(matcher.find())
     {
       return new Token(matcher.group(1), "", response);
