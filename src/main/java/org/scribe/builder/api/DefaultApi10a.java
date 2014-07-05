@@ -1,5 +1,6 @@
 package org.scribe.builder.api;
 
+import org.scribe.builder.api.Api;
 import org.scribe.extractors.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
@@ -19,11 +20,15 @@ import org.scribe.services.*;
  * javadocs of the interfaces to get an idea of what to do.
  * 
  * @author Pablo Fernandez
- * @deprecated because not needed right now!
+ * @_deprecated because not needed right now!
  */
 public abstract class DefaultApi10a extends Api
 {
-	!!!exclude from build path!!!
+	
+   public DefaultApi10a (){
+	   flow = ApiFlow.flow10a;
+   }
+	
   /**
    * Returns the access token extractor.
    * 
@@ -137,6 +142,6 @@ public abstract class DefaultApi10a extends Api
    */
   public OAuthService createService(OAuthConfig config)
   {
-    return new OAuth10aServiceImpl(this);
+    return new OAuth10aServiceImpl(this,config);
   }
 }

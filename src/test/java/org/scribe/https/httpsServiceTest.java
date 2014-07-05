@@ -5,25 +5,16 @@ package org.scribe.https;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
-import java.security.KeyManagementException;
 import java.security.KeyStore;
-import java.security.KeyStoreException;
-import java.security.NoSuchAlgorithmException;
 import java.security.cert.Certificate;
-import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
-
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
-
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scribe.builder.ServiceBuilder;
 import org.scribe.model.Request;
@@ -48,32 +39,33 @@ public class httpsServiceTest {
 	@Test 
 	public void testhomeApiSSlException()
 	{
-		OAuth20ServiceImpl service = (OAuth20ServiceImpl)new ServiceBuilder()
+		OAuth20ServiceImpl service = new ServiceBuilder()
 									    .provider(testhomeApi.class)
 									    .apiKey("1")
 									    .apiSecret("1")
-									    .build();
+									    .build20();
 	    
 		try{
 			service.makeAccessTokenRequest(null);
+			fail();
 		}catch (org.scribe.exceptions.OAuthConnectionException e){
 			// stack trace as a string
 			StringWriter sw = new StringWriter();
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
 			String s = sw.toString(); 
-			//System.out.print(s);
+			System.out.print(s);
 			assertTrue(s.contains("SSLHandshakeException"));			
 		}
 	}
 	
 	@Test
 	public void shouldGetAccessToken(){
-		OAuth20ServiceImpl service = (OAuth20ServiceImpl)new ServiceBuilder()
+		OAuth20ServiceImpl service = new ServiceBuilder()
 									    .provider(testhomeApi.class)
 									    .apiKey("1")
 									    .apiSecret("1")
-									    .build();
+									    .build20();
 				 
 		SSLRequestTuner tuner = new SSLRequestTuner();
 		try{
@@ -87,15 +79,16 @@ public class httpsServiceTest {
 	
 	@Test
 	public void localhostApiSSlException(){
-		OAuth20ServiceImpl service = (OAuth20ServiceImpl)new ServiceBuilder()
+		OAuth20ServiceImpl service = new ServiceBuilder()
 									    .provider(localhostApi.class)
 									    .apiKey("1")
 									    .apiSecret("1")
-									    .build();
+									    .build20();
 				 
 		SSLRequestTuner tuner = new SSLRequestTuner();
 		try{
 			service.makeAccessTokenRequest(tuner);
+			fail();
 		}catch (org.scribe.exceptions.OAuthConnectionException e){
 			// stack trace as a string
 			StringWriter sw = new StringWriter();
@@ -139,26 +132,10 @@ class SSLRequestTuner extends RequestTuner{
 			context.init(null, tmf.getTrustManagers(), null);			
 			((HttpsURLConnection) this.getConnection(request)).setSSLSocketFactory(context.getSocketFactory());
 			
-		} catch (CertificateException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-			fail();
-		} catch (KeyStoreException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		} catch (KeyManagementException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		} catch (NoSuchAlgorithmException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			fail();
+			fail();		
 		}
 				
 	}

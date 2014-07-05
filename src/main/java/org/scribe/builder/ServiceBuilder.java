@@ -161,11 +161,18 @@ public class ServiceBuilder
    * 
    * @return fully configured {@link OAuthService}
    */
-  public OAuthService build()
-  {
-    Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
-    Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-    Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");
-    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+  public OAuthService build(){
+	  Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
+	    Preconditions.checkEmptyString(apiKey, "You must provide an api key");
+	    Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");    
+	    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
+  }
+  
+  public OAuth10aServiceImpl build10a()  {
+    return (OAuth10aServiceImpl) build();
+  }
+  
+  public OAuth20ServiceImpl build20()  {
+    return (OAuth20ServiceImpl)  build();
   }
 }

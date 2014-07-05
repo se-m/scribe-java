@@ -1,6 +1,7 @@
 package org.scribe.https;
 
 import java.io.*;
+import java.net.BindException;
 import java.security.*;
 
 import javax.net.ssl.*;
@@ -10,7 +11,7 @@ public class Server extends Thread {
 	public void run (){		
 		char ksPass[] = "password".toCharArray();
 		char ctPass[] = "password".toCharArray();
-		 SSLServerSocket s=null;
+		SSLServerSocket s=null;
 		try {
 		     KeyStore ks = KeyStore.getInstance("JKS");		    
 			 ks.load(new ByteArrayInputStream(keystoreFileContents), ksPass);
@@ -44,8 +45,9 @@ public class Server extends Thread {
 		     w.close();
 		     r.close();
 		     c.close();
+		 } catch (BindException e) {
+		     e.printStackTrace();
 		 } catch (Exception e) {
-		     //e.printStackTrace();
 		     try {
 				s.close();
 			} catch (IOException e1) {

@@ -1,6 +1,5 @@
 package org.scribe.builder.api;
 
-import org.scribe.extractors.TokenExtractor;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -12,6 +11,10 @@ import org.scribe.oauth.*;
  */
 public abstract class Api
 {  
+	
+	protected ApiFlow flow;
+	 
+	 
 	protected Token AccessToken = Token.empty();
   /**
    * Creates an {@link OAuthService}
@@ -43,4 +46,15 @@ public abstract class Api
 	  if (token==null) AccessToken=Token.empty();
 	  else AccessToken=token;
   }
+  
+  
+  /**
+   * obtain what kind of oauth flow is used
+   * @return kind of flow
+   */
+  
+  public ApiFlow getFlowType (){
+	  return flow;
+  }
+  
 }

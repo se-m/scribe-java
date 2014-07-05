@@ -1,7 +1,7 @@
 package org.scribe.https;
 
 
-import org.scribe.builder.api.Api20Flow;
+import org.scribe.builder.api.ApiFlow;
 import org.scribe.builder.api.DefaultApi20;
 import org.scribe.extractors.JsonTokenExtractor;
 import org.scribe.extractors.TokenExtractor;
@@ -12,7 +12,8 @@ import org.scribe.extractors.TokenExtractor;
 public class testhomeApi extends DefaultApi20 {
 	
 	public testhomeApi(){
-		flow = Api20Flow.client_cred;		
+		super();
+		flow = ApiFlow.client_cred;		
 	}
 	@Override
 	protected String getAccessTokenEndpoint() {
@@ -24,12 +25,5 @@ public class testhomeApi extends DefaultApi20 {
 		return "https://testhome.com";
 	}
 	
-	@Override 
-	  protected TokenExtractor getAccessTokenExtractor() {
-	    return new JsonTokenExtractor(JsonTokenExtractor.accessTokenPattern);
-	  }
-	@Override  
-	  protected TokenExtractor getRefreshTokenExtractor(){
-		  return new JsonTokenExtractor(JsonTokenExtractor.refreshTokenPattern);
-	  }
+	
 }

@@ -1,12 +1,13 @@
 package org.scribe.https;
 
-import org.scribe.builder.api.Api20Flow;
+import org.scribe.builder.api.ApiFlow;
 import org.scribe.builder.api.DefaultApi20;
 
 public class localhostApi  extends DefaultApi20 {
 	
 	public localhostApi(){
-		flow = Api20Flow.client_cred;		
+		super();
+		flow = ApiFlow.client_cred;		
 	}
 	@Override
 	protected String getAccessTokenEndpoint() {

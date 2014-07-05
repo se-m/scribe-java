@@ -25,16 +25,20 @@ import org.scribe.utils.Preconditions;
 public abstract class DefaultApi20 extends Api
 {
 	protected Token RefreshToken= Token.empty();
-	protected OAuthConfig config=null;
-    protected Api20Flow flow;
+	protected OAuthConfig config=null;   
 	protected ErrorInfo lastError=new ErrorInfo();
     
+  public  DefaultApi20 (){
+	  flow = ApiFlow.standard;
+  }
+	
+ 
   protected TokenExtractor getAccessTokenExtractor() {
-    return new TokenExtractor20Impl(TokenExtractor20Impl.accessTokenPattern);
+    return new JsonTokenExtractor(JsonTokenExtractor.accessTokenPattern);
   }
   
   protected TokenExtractor getRefreshTokenExtractor(){
-	  return new TokenExtractor20Impl(TokenExtractor20Impl.refreshTokenPattern);
+	  return new JsonTokenExtractor(JsonTokenExtractor.refreshTokenPattern);
   }
   
   protected ErrorInfoExtractor getErrorInfoExtractor(){
@@ -56,15 +60,7 @@ public abstract class DefaultApi20 extends Api
 	  return RefreshToken;
   }
   
-  /**
-   * obtain what kind of oauth 20 flow is used
-   * @return kind of flow
-   */
-  
-  public Api20Flow getFlowType (){
-	  return flow;
-  }
-  
+ 
 	
   /**
    * Returns the verb for the access token endpoint (defaults to GET)
@@ -103,6 +99,10 @@ public abstract class DefaultApi20 extends Api
   
   public ErrorInfo getLastError (){
 	  return lastError;
+  }
+  
+  public boolean hasError (){
+	  return lastError.getError() == ErrorInfo.no_error;
   }
   
   public boolean parseAccessTokenResponse (Response response){

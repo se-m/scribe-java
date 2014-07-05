@@ -8,9 +8,11 @@ import org.scribe.model.*;
 
 public class OAuth20ServiceImpl implements OAuthService
 {
-  private static final String VERSION = "2.0";
+ 
   
-  public final DefaultApi20 api; 
+	 private static final String VERSION = "2.0";
+		
+	  public final DefaultApi20 api; 
   
   /**
    * Default constructor
@@ -18,10 +20,8 @@ public class OAuth20ServiceImpl implements OAuthService
    * @param api OAuth2.0 api information
    * @param config OAuth 2.0 configuration param object
    */
-  public OAuth20ServiceImpl(DefaultApi20 api)
-  {
-    this.api = api;
-    //this.config = config;
+  public OAuth20ServiceImpl(DefaultApi20 api) {
+	  this.api = api; 
   }
 
   
@@ -32,15 +32,19 @@ public class OAuth20ServiceImpl implements OAuthService
    * @return true if no errors
    */
   public boolean makeAccessTokenRequest (String auth_code,RequestTuner tuner){
-	  if (api.getFlowType()!=Api20Flow.standard) throw new OAuthException("this method is for standard flow only");
+	  if (api.getFlowType()!=ApiFlow.standard) throw new OAuthException("this method is for standard flow only");
 	  OAuthRequest request = api.getAccessTokenRequest(auth_code);	  	  
 	  return api.parseAccessTokenResponse(request.send(tuner));
   }
-  
+  /**
+   * {@inheritDoc}
+   */
   public boolean refreshAccessToken (RequestTuner tuner){
 	  return makeAccessTokenRequest(api.getRefreshToken(),tuner);
   }
-  
+  /**
+   * {@inheritDoc}
+   */
   public boolean makeAccessTokenRequest (Token refreshToken,RequestTuner tuner){
 	  OAuthRequest request = api.getAccessTokenRequest(refreshToken);
 	  return api.parseAccessTokenResponse(request.send(tuner));
@@ -50,9 +54,8 @@ public class OAuth20ServiceImpl implements OAuthService
    * client credentials flow
    * @return
    */
-  
   public boolean makeAccessTokenRequest (RequestTuner tuner){
-	  if (api.getFlowType()!=Api20Flow.client_cred) throw new OAuthException("this method is forclient credentials flow only");
+	  if (api.getFlowType()!=ApiFlow.client_cred) throw new OAuthException("this method is for client credentials flow only");
 	  OAuthRequest request = api.getAccessTokenRequest();
 	  return api.parseAccessTokenResponse(request.send(tuner));
   }
@@ -66,19 +69,13 @@ public class OAuth20ServiceImpl implements OAuthService
    */
   
   public boolean makeAccessTokenRequest (String usrLogin, String usrPassword,RequestTuner tuner){
-	  if (api.getFlowType()!=Api20Flow.user_cred) throw new OAuthException("this method is for user credentials flow only");
+	  if (api.getFlowType()!=ApiFlow.user_cred) throw new OAuthException("this method is for user credentials flow only");
 	  OAuthRequest request = api.getAccessTokenRequest(usrLogin,usrPassword);
 	  return api.parseAccessTokenResponse(request.send(tuner));
   }
   
  
-  /**
-   * {@inheritDoc}
-   */
-  public String getVersion()
-  {
-    return VERSION;
-  }
+  
 
   
   public Response makeRequest (OAuthRequest request, RequestTuner tuner){
@@ -107,5 +104,11 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     return api.getAuthorizationUrl();
   }
-
+  /**
+   * {@inheritDoc}
+   */
+  public String getVersion()
+  {
+    return VERSION;
+  }
 }

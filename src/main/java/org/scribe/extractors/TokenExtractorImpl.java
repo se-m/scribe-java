@@ -12,7 +12,7 @@ import org.scribe.utils.*;
  * The process for extracting access and request tokens is similar so this class can do both things.
  * 
  * @author Pablo Fernandez
- * @deprecated
+ * @_deprecated
  */
 public class TokenExtractorImpl implements  TokenExtractor
 {
