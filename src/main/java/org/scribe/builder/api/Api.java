@@ -1,5 +1,6 @@
 package org.scribe.builder.api;
 
+import org.scribe.extractors.TokenExtractor;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
 
@@ -9,8 +10,9 @@ import org.scribe.oauth.*;
  * @author Pablo Fernandez
  *
  */
-public interface Api
+public abstract class Api
 {  
+	protected Token AccessToken = Token.empty();
   /**
    * Creates an {@link OAuthService}
    * 
@@ -21,5 +23,24 @@ public interface Api
    * 
    * @return fully configured {@link OAuthService}
    */
-  OAuthService createService(OAuthConfig config);
+  public abstract OAuthService createService(OAuthConfig config);
+
+  
+ /**
+  * token must be obtained before this call (e.g. use {@link service}.{@link makeAccessTokenRequest} for Standard oAuth 2.0 flow) 
+  * @return stored Access {@link Token}
+  */
+  public Token getAccessToken (){
+	  return AccessToken;
+  }
+  
+  /**
+   * Make use your token as Access token
+   * @param {@link Token}
+   */
+
+  public void useAsAccessToken (Token token){
+	  if (token==null) AccessToken=Token.empty();
+	  else AccessToken=token;
+  }
 }

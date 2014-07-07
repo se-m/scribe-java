@@ -25,7 +25,7 @@ public class RequestTest
   @Test
   public void shouldSetRequestVerb()
   {
-    getRequest.send();
+    getRequest.send(null);
     assertEquals("GET", connection.getRequestMethod());
   }
 
@@ -42,7 +42,7 @@ public class RequestTest
   {
     getRequest.addHeader("Header", "1");
     getRequest.addHeader("Header2", "2");
-    getRequest.send();
+    getRequest.send(null);
     assertEquals(2, getRequest.getHeaders().size());
     assertEquals(2, connection.getHeaders().size());
   }
@@ -51,7 +51,7 @@ public class RequestTest
   public void shouldSetBodyParamsAndAddContentLength()
   {
     assertEquals("param=value&param%20with%20spaces=value%20with%20spaces", postRequest.getBodyContents());
-    postRequest.send();
+    postRequest.send(null);
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
 
@@ -59,7 +59,7 @@ public class RequestTest
   public void shouldSetPayloadAndHeaders()
   {
     postRequest.addPayload("PAYLOAD");
-    postRequest.send();
+    postRequest.send(null);
     assertEquals("PAYLOAD", postRequest.getBodyContents());
     assertTrue(connection.getHeaders().containsKey("Content-Length"));
   }
@@ -92,7 +92,7 @@ public class RequestTest
   public void shouldAutomaticallyAddContentTypeForPostRequestsWithBytePayload()
   {
     postRequest.addPayload("PAYLOAD".getBytes());
-    postRequest.send();
+    postRequest.send(null);
     assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
   }
 
@@ -100,14 +100,14 @@ public class RequestTest
   public void shouldAutomaticallyAddContentTypeForPostRequestsWithStringPayload()
   {
     postRequest.addPayload("PAYLOAD");
-    postRequest.send();
+    postRequest.send(null);
     assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
   }
 
   @Test
   public void shouldAutomaticallyAddContentTypeForPostRequestsWithBodyParameters()
   {
-    postRequest.send();
+    postRequest.send(null);
     assertEquals(Request.DEFAULT_CONTENT_TYPE, connection.getHeaders().get("Content-Type"));
   }
 
@@ -115,14 +115,14 @@ public class RequestTest
   public void shouldBeAbleToOverrideItsContentType()
   {
     postRequest.addHeader("Content-Type", "my-content-type");
-    postRequest.send();
+    postRequest.send(null);
     assertEquals("my-content-type", connection.getHeaders().get("Content-Type"));
   }
 
   @Test
   public void shouldNotAddContentTypeForGetRequests()
   {
-    getRequest.send();
+    getRequest.send(null);
     assertFalse(connection.getHeaders().containsKey("Content-Type"));
   }
 }

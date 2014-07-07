@@ -1,6 +1,14 @@
 package org.scribe.model;
 
+import java.net.HttpURLConnection;
+
 public abstract class RequestTuner
 {
-  public abstract void tune(Request request);
+  public abstract void tuneBeforeConection(Request request);
+  public abstract void tuneBeforeSend(Request request);
+  public abstract void tuneBeforeResponse(Request request);
+  
+  public HttpURLConnection getConnection (Request request){
+	  return request.connection;
+  }
 }

@@ -13,8 +13,8 @@ public class TokenExtractor20Impl implements TokenExtractor
 {
   private static final String EMPTY_SECRET = "";
 
-  public static final Pattern accessTokenPattern = Pattern.compile("access_token=([^&]+)");
-  public static final Pattern refreshTokenPattern = Pattern.compile("refresh_token=([^&]+)");
+  public static final Pattern accessTokenPattern = Pattern.compile(OAuthConstants.ACCESS_TOKEN+"=([^&]+)");
+  public static final Pattern refreshTokenPattern = Pattern.compile(OAuthConstants.REFRESH_TOKEN+"refresh_token=([^&]+)");
   private Pattern tokenPattern;
   
   public TokenExtractor20Impl(){

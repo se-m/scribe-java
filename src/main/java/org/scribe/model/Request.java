@@ -16,19 +16,15 @@ import org.scribe.exceptions.*;
 public class Request
 {
   private static final String CONTENT_LENGTH = "Content-Length";
-  private static final String CONTENT_TYPE = "Content-Type";
-  private static RequestTuner NOOP = new RequestTuner() {
-    @Override public void tune(Request _){}
-  };
+  private static final String CONTENT_TYPE = "Content-Type";  
   public static final String DEFAULT_CONTENT_TYPE = "application/x-www-form-urlencoded";
-
   private String url;
   private Verb verb;
   private ParameterList querystringParams;
   private ParameterList bodyParams;
   private Map<String, String> headers;
   private String payload = null;
-  private HttpURLConnection connection;
+  HttpURLConnection connection;
   private String charset;
   private byte[] bytePayload = null;
   private boolean connectionKeepAlive = false;
@@ -57,33 +53,33 @@ public class Request
    * @return Http Response
    * @throws RuntimeException
    *           if the connection cannot be created.
-   */
-  public Response send(RequestTuner tuner)
-  {
-    try
-    {
-      createConnection();
-      return doSend(tuner);
-    }
-    catch (Exception e)
-    {
-      throw new OAuthConnectionException(e);
-    }
+   */ 
+  
+  public Response send(RequestTuner tuner){
+	  try
+	    {
+		  if (tuner!=null) tuner.tuneBeforeConection(this);
+	      createConnection(null);	      
+	      if (tuner!=null) tuner.tuneBeforeSend(this);
+	      return doSend(tuner);
+	    }
+	    catch (Exception e)
+	    {
+	      throw new OAuthConnectionException(e);
+	    }
   }
-
-  public Response send()
-  {
-    return send(NOOP);
-  }
-
-  private void createConnection() throws IOException
-  {
-    String completeUrl = getCompleteUrl();
+  
+ 
+  public void createConnection(Proxy proxy) throws IOException
+  {   
     if (connection == null)
     {
-      System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");
-      connection = (HttpURLConnection) new URL(completeUrl).openConnection();
-      connection.setInstanceFollowRedirects(followRedirects);
+    	String completeUrl = getCompleteUrl();
+		System.setProperty("http.keepAlive", connectionKeepAlive ? "true" : "false");      
+		if (proxy==null) 
+			connection = (HttpURLConnection) new URL(completeUrl).openConnection();
+		else 
+			connection = (HttpURLConnection) new URL(completeUrl).openConnection(proxy);      
     }
   }
 
@@ -99,7 +95,10 @@ public class Request
 
   Response doSend(RequestTuner tuner) throws IOException
   {
-    connection.setRequestMethod(this.verb.name());
+    connection.setRequestMethod(this.verb.name());    
+    
+	connection.setInstanceFollowRedirects(followRedirects);
+	
     if (connectTimeout != null) 
     {
       connection.setConnectTimeout(connectTimeout.intValue());
@@ -107,13 +106,15 @@ public class Request
     if (readTimeout != null)
     {
       connection.setReadTimeout(readTimeout.intValue());
-    }
+    }    
+    
     addHeaders(connection);
     if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
     {
       addBody(connection, getByteBodyContents());
     }
-    tuner.tune(this);
+    
+    if (tuner!=null) tuner.tuneBeforeResponse(this);
     return new Response(connection);
   }
 

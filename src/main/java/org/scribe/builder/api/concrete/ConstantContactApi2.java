@@ -1,7 +1,9 @@
 package org.scribe.builder.api.concrete;
 
 import org.scribe.builder.api.*;
+
 import java.util.regex.*;
+
 import org.scribe.exceptions.*;
 import org.scribe.extractors.*;
 import org.scribe.model.*;
@@ -18,7 +20,7 @@ public class ConstantContactApi2 extends DefaultApi20
   }
 
   @Override
-  public String getAuthorizationUrl(OAuthConfig config)
+  public String getAuthorizationUrl()
   {
     return String.format(AUTHORIZE_URL, config.getApiKey(), OAuthEncoder.encode(config.getCallback()));
   }
@@ -53,4 +55,6 @@ public class ConstantContactApi2 extends DefaultApi20
       }
     };
   }
+
+
 }

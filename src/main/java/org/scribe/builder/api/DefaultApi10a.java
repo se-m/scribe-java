@@ -19,10 +19,11 @@ import org.scribe.services.*;
  * javadocs of the interfaces to get an idea of what to do.
  * 
  * @author Pablo Fernandez
- *
+ * @deprecated because not needed right now!
  */
-public abstract class DefaultApi10a implements Api
+public abstract class DefaultApi10a extends Api
 {
+	!!!exclude from build path!!!
   /**
    * Returns the access token extractor.
    * 
@@ -136,6 +137,6 @@ public abstract class DefaultApi10a implements Api
    */
   public OAuthService createService(OAuthConfig config)
   {
-    return new OAuth10aServiceImpl(this, config);
+    return new OAuth10aServiceImpl(this);
   }
 }

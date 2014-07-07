@@ -10,11 +10,22 @@ public class ConnectionStub extends HttpURLConnection
   private Map<String, String> headers = new HashMap<String, String>();
   private Map<String, List<String>> responseHeaders = new HashMap<String, List<String>>();
   private int inputStreamCalled = 0;
+  private InputStream inStr=null;
 
-  public ConnectionStub() throws Exception
+  public ConnectionStub(InputStream stream) throws Exception
   {
-    super(new URL("http://example.com"));
+	  super(new URL("http://example.com"));
+	  
+	if (stream==null) inStr = new ByteArrayInputStream("contents".getBytes());
+	else inStr = stream;
+    
   }
+  
+  public ConnectionStub() throws Exception{
+	  this(null);
+  }
+  
+  
 
   @Override
   public void setRequestProperty(String key, String value)
@@ -43,7 +54,7 @@ public class ConnectionStub extends HttpURLConnection
   public InputStream getInputStream() throws IOException
   {
     inputStreamCalled++;
-    return new ByteArrayInputStream("contents".getBytes());
+    return inStr;
   }
 
   public int getTimesCalledInpuStream()

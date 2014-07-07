@@ -15,14 +15,20 @@ public abstract class Base64Encoder
 
   private static Base64Encoder createEncoderInstance()
   {
+	  return new InternalEncoder();
+	  /*
     if (CommonsEncoder.isPresent())
     {
       return new CommonsEncoder();
     }
-    else
+   
+    if (DatatypeConverterEncoder.isPresent())
     {
       return new DatatypeConverterEncoder();
     }
+    
+    return new InternalEncoder();
+    */
   }
 
   public static String type()

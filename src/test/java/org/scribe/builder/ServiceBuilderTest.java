@@ -60,7 +60,7 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getScope(), "rss-api");
   }
 
-  public static class ApiMock implements Api
+  public static class ApiMock extends Api
   {
     public static OAuthConfig config;
 

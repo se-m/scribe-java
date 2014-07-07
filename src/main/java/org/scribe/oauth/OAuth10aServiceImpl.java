@@ -12,6 +12,7 @@ import java.util.concurrent.TimeUnit;
  * OAuth 1.0a implementation of {@link OAuthService}
  *
  * @author Pablo Fernandez
+ * @deprecated
  */
 public class OAuth10aServiceImpl implements OAuthService
 {
@@ -26,10 +27,10 @@ public class OAuth10aServiceImpl implements OAuthService
    * @param api OAuth1.0a api information
    * @param config OAuth 1.0a configuration param object
    */
-  public OAuth10aServiceImpl(DefaultApi10a api, OAuthConfig config)
+  public OAuth10aServiceImpl(DefaultApi10a api)
   {
     this.api = api;
-    this.config = config;
+//    this.config = config;
   }
 
   /**

@@ -41,6 +41,9 @@ public class OAuthConfig
     return apiSecret;
   }
 
+  public boolean hasCallback(){
+	  return ((callback!=null) && (!"".equals(callback)));
+  }
   public String getCallback()
   {
     return callback;

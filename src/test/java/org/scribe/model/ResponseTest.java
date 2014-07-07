@@ -43,6 +43,50 @@ public class ResponseTest
     assertEquals("contents", response.getBody());
     assertEquals(1, connection.getTimesCalledInpuStream());
   }
+  
+  @Test
+  public void shouldReturnEmptyStreamIfBodyParsed()
+  { 
+    try {
+    	assertEquals(8,response.getStream().available());
+    	assertEquals("contents", response.getBody());
+		assertEquals(0,response.getStream().available());
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		fail();
+		e.printStackTrace();
+	}  
+  }
+  
+  @Test
+  public void shouldParseOver64kb()
+  { 
+	byte[] a68kb = new byte[0x11000];//68 kb  (0x10000 - magic inside streamutils)
+	
+	byte j=33;//ASCII - !	
+	for (int i=0; i<68*1024;++i){
+		if (i%1024==0) ++j;
+		a68kb[i]=j;
+	}
+	
+	try {
+		connection = new ConnectionStub(new ByteArrayInputStream(a68kb));
+		response = new Response(connection);
+	} catch (Exception e1) {
+		fail();
+		e1.printStackTrace();
+	}
+	
+    try {
+    	assertEquals(68*1024,response.getStream().available());
+    	assertEquals(new String(a68kb), response.getBody());
+		
+	} catch (IOException e) {
+		// TODO Auto-generated catch block
+		fail();
+		e.printStackTrace();
+	}  
+  }
 
   @Test
   public void shouldHandleAConnectionWithErrors() throws Exception
