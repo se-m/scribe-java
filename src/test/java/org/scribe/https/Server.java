@@ -23,30 +23,44 @@ public class Server extends Thread {
 			 s= (SSLServerSocket) ssf.createServerSocket(443);
 			 //System.out.println("Server started:");	        
 			 // Listening to the port
-			 SSLSocket c = (SSLSocket) s.accept();	        
-			 BufferedWriter w = new BufferedWriter(new OutputStreamWriter(c.getOutputStream()));
-			 BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream()));
-			 String m = r.readLine();
+			
+			 while(!interrupted())
+			 {
+				 SSLSocket c;
+				 try{
+					 c = (SSLSocket) s.accept();
+				 } catch (BindException e) {
+				     e.printStackTrace(); //if you got this error ("Address already in use: JVM_Bind") then check if some one use port 443
+				     return;
+				 }
+				 BufferedWriter w = new BufferedWriter(new OutputStreamWriter(c.getOutputStream()));
+				 BufferedReader r = new BufferedReader(new InputStreamReader(c.getInputStream()));
 			 
-			 
-			 w.write("HTTP/1.0 200 OK"); 
-			 w.newLine();
-			 w.write("Content-Type: text/html");
-			 w.newLine();
-			 w.newLine();
-			 //w.write("<html><body>Hello world!</body></html>");
-			 w.write(	"{\"access_token\":\"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f\""
-					 	+",\"expires_in\":3600,"
-					 	+"\"token_type\":\"Bearer\""
-					 	+",\"scope\":null,"
-					 	+"\"refresh_token\":\"e539a15366bbf76262453c33c54d16f9e69a933a\"}");
-		     w.newLine();
-		     w.flush();
-		     w.close();
-		     r.close();
-		     c.close();
-		 } catch (BindException e) {
-		     e.printStackTrace();
+				 
+				 try{					 
+					 String m = r.readLine();
+					 System.out.println(m);
+				 } catch (Exception e2){
+					 continue; //SSL Exception we catch there 
+				 }
+				 w.write("HTTP/1.0 200 OK"); 
+				 w.newLine();
+				 w.write("Content-Type: text/html");
+				 w.newLine();
+				 w.newLine();
+				 //w.write("<html><body>Hello world!</body></html>");
+				 w.write(	"{\"access_token\":\"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f\""
+						 	+",\"expires_in\":3600,"
+						 	+"\"token_type\":\"Bearer\""
+						 	+",\"scope\":null,"
+						 	+"\"refresh_token\":\"e539a15366bbf76262453c33c54d16f9e69a933a\"}");
+			     w.newLine();
+			     w.flush();
+			     w.close();
+			     r.close();
+			     c.close();
+			 }
+		 
 		 } catch (Exception e) {
 		     try {
 				s.close();
@@ -57,7 +71,7 @@ public class Server extends Thread {
 		 }
 	}
 	
-	/* 
+	/* TODO:: Translate this part to English
 	 * Create CA: 
 	 * Читаем как 
 	 *	http://fusesource.com/docs/broker/5.3/security/i305191.html

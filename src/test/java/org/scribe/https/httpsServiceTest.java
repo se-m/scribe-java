@@ -10,30 +10,37 @@ import java.io.StringWriter;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
+
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
+
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scribe.builder.ServiceBuilder;
+import org.scribe.builder.api.ApiFlow;
 import org.scribe.model.Request;
 import org.scribe.model.RequestTuner;
+import org.scribe.model.Token;
 import org.scribe.oauth.OAuth20ServiceImpl;
+
 
 public class httpsServiceTest {
 	
-	Server srv=null;
-	@Before
-	public void StartServer (){
+	static Server srv=null;
+	@BeforeClass
+	public static void StartServer (){		
 		srv = new Server();
-		srv.start();
+		srv.start();		
 	}
 	
-	@After
-	public void StopServer(){
+	@AfterClass
+	public static void StopServer(){
 		if (srv!=null)
-			srv.interrupt();
+			srv.interrupt();		
 	}
 	
 	@Test 
@@ -54,20 +61,21 @@ public class httpsServiceTest {
 			PrintWriter pw = new PrintWriter(sw);
 			e.printStackTrace(pw);
 			String s = sw.toString(); 
-			System.out.print(s);
+			//System.out.print(s);
 			assertTrue(s.contains("SSLHandshakeException"));			
 		}
 	}
 	
 	@Test
-	public void shouldGetAccessToken(){
+	public void shouldGetAccessToken_CC(){
 		OAuth20ServiceImpl service = new ServiceBuilder()
 									    .provider(testhomeApi.class)
-									    .apiKey("1")
-									    .apiSecret("1")
+									    .apiKey("CC")
+									    .apiSecret("CC")
 									    .build20();
 				 
 		SSLRequestTuner tuner = new SSLRequestTuner();
+		((testhomeApi)service.api).changeFlow(ApiFlow.client_cred);
 		try{
 			service.makeAccessTokenRequest(tuner);
 		}catch (org.scribe.exceptions.OAuthConnectionException e){
@@ -76,6 +84,64 @@ public class httpsServiceTest {
 		
 		assertEquals(service.api.getAccessToken().getToken(),"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f");
 	}
+	
+	@Test
+	public void shouldGetAccessToken_UC(){
+		OAuth20ServiceImpl service = new ServiceBuilder()
+									    .provider(testhomeApi.class)
+									    .apiKey("UC")
+									    .apiSecret("UC")
+									    .build20();
+				 
+		SSLRequestTuner tuner = new SSLRequestTuner();
+		((testhomeApi)service.api).changeFlow(ApiFlow.user_cred);
+		try{
+			service.makeAccessTokenRequest("user","password",tuner);
+		}catch (org.scribe.exceptions.OAuthConnectionException e){
+			fail();			
+		}
+		
+		assertEquals(service.api.getAccessToken().getToken(),"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f");
+	}
+	
+	@Test
+	public void shouldGetAccessToken_S(){
+		OAuth20ServiceImpl service = new ServiceBuilder()
+									    .provider(testhomeApi.class)
+									    .apiKey("S")
+									    .apiSecret("S")
+									    .build20();
+				 
+		SSLRequestTuner tuner = new SSLRequestTuner();
+		((testhomeApi)service.api).changeFlow(ApiFlow.standard);
+		try{
+			service.makeAccessTokenRequest("auth_code",tuner);
+		}catch (org.scribe.exceptions.OAuthConnectionException e){
+			fail();			
+		}
+		
+		assertEquals(service.api.getAccessToken().getToken(),"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f");
+	}
+	
+	
+	@Test
+	public void shouldGetAccessToken_R(){
+		OAuth20ServiceImpl service = new ServiceBuilder()
+									    .provider(testhomeApi.class)
+									    .apiKey("2")
+									    .apiSecret("2")
+									    .build20();
+				 
+		SSLRequestTuner tuner = new SSLRequestTuner();		
+		try{
+			service.makeAccessTokenRequest(new Token("refresh","token"),tuner);
+		}catch (org.scribe.exceptions.OAuthConnectionException e){
+			fail();			
+		}
+		
+		assertEquals(service.api.getAccessToken().getToken(),"b8f5bc82bc398ce0dfb4adc297e5b712f862a16f");
+	}
+	
 	
 	@Test
 	public void localhostApiSSlException(){

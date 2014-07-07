@@ -27,6 +27,7 @@ public abstract class DefaultApi20 extends Api
 	protected Token RefreshToken= Token.empty();
 	protected OAuthConfig config=null;   
 	protected ErrorInfo lastError=new ErrorInfo();
+	protected int lastResponseCode=0;
     
   public  DefaultApi20 (){
 	  flow = ApiFlow.standard;
@@ -42,7 +43,7 @@ public abstract class DefaultApi20 extends Api
   }
   
   protected ErrorInfoExtractor getErrorInfoExtractor(){
-	  return new ErrorInfoExtractor20Impl();
+	  return new JsonErrorInfoExtractor();
   }
   
   
@@ -89,6 +90,7 @@ public abstract class DefaultApi20 extends Api
   }
   
   public boolean checkForError (Response response){
+	  lastResponseCode = response.getCode();
 	  if (response.isSuccessful()) {
 		  lastError = new ErrorInfo();
 	  }else{
@@ -102,7 +104,11 @@ public abstract class DefaultApi20 extends Api
   }
   
   public boolean hasError (){
-	  return lastError.getError() == ErrorInfo.no_error;
+	  return lastError.getError() != ErrorInfo.no_error;
+  }
+  
+  public int getLastResponseCode(){
+	  return lastResponseCode;
   }
   
   public boolean parseAccessTokenResponse (Response response){
@@ -164,8 +170,10 @@ public abstract class DefaultApi20 extends Api
 	  Preconditions.checkNotNull(config, "config is not set yet");
 	  if (refreshToken==null) refreshToken=RefreshToken;	  
 	  OAuthRequest request = new OAuthRequest(getRefreshTokenVerb(), getRefreshTokenEndpoint());
-	  RequestParameterInserter params = getRequestParameterInserter(request);
+	  RequestParameterInserter params = getRequestParameterInserter(request);	  
 	  params.Add(OAuthConstants.GRAND_TYPE,"refresh_token");
+	  params.Add(OAuthConstants.CLIENT_ID, config.getApiKey());
+	  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
 	  params.Add(OAuthConstants.REFRESH_TOKEN, refreshToken.getToken());	 
 	  return request;	  
   }

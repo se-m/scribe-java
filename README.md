@@ -1,15 +1,15 @@
-# Extended for better Oauth 2.0
+# Extended for Oauth 2.0
 
 ### Dead Simple
 
 
 ```java
 //Create service
-OAuth20ServiceImpl service = (OAuth20ServiceImpl) new ServiceBuilder()
+OAuth20ServiceImpl service = new ServiceBuilder()
                                   .provider(LinkedInApi.class)
                                   .apiKey(YOUR_API_KEY)
                                   .apiSecret(YOUR_API_SECRET)
-                                  .build();
+                                  .build20();
 ```
 
 ```java
@@ -36,11 +36,39 @@ switch (service.api.getFlowType()){
 		service.makeAccessTokenRequest(null);
 		break;
 }
+
+System.out.print(service.api.getAccessToken().toString()+"\n");
+
+//there is a test, to see how to work with unknown-ca/self-signed sertificate org.scribe.https.httpsServiceTest
 ```
 
 ```java
 //Use it
 InputStream stream = service.RequestResource("https://example.com/resource.php",null);
+
+//WARN: if there was an error, then stream will be empty!
+```
+
+```java
+//Error handling
+if (service.api.hasError()){			
+			System.out.print(service.api.getLastError().getError()+"\n");
+			System.out.print(service.api.getLastError().getDescription()+"\n");
+			System.out.print(service.api.getLastError().getRawResponse()+"\n");
+}
 ```
 
 
+```java
+//Refresh Token (optional)
+
+Token refreshToken = service.api.getRefreshToken();
+//save it
+//...
+//load it
+service.api.useAsRefreshToken(refreshToken);
+service.refreshAccessToken(null);
+//or just one line
+service.makeAccessTokenRequest(refreshToken,null);
+
+```

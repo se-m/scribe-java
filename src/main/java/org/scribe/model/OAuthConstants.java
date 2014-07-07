@@ -60,10 +60,11 @@ public class OAuthConstants
   public static final String INVALID_GRANT				= "invalid_grant";
   public static final String INVALID_CLIENT 			= "invalid_client";  
   public static final String INVALID_SCOPE				= "invalid_scope";
+  public static final String INVALID_TOKEN				= "invalid_token"; //not specified in rfc, but bshaffer oauth 20 returns it 
   public static final String UNSUPPORTED_GRANT_TYPE 	= "unsupported_grant_type";  
   public static final String UNSUPPORTED_RESPONSE_TYPE 	= "unsupported_response_type";  
   public static final String SERVER_ERROR 				= "server_error";
-  public static final String TEMPORARILY_UNAVAILABLE 	= "temporarily_unavailable";
+  public static final String TEMPORARILY_UNAVAILABLE 	= "temporarily_unavailable";  
   public static final String ERROR_DESCRIPTION 			= "error_description";
   public static final String ERROR_URI 					= "error_uri";  
   

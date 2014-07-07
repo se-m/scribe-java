@@ -9,11 +9,12 @@ public class ErrorInfo {
 	public static final int access_denied				=4;
 	public static final int unsupported_response_type	=5;
 	public static final int invalid_scope				=6;
-	public static final int server_error				=7;
-	public static final int temporarily_unavailable		=8;
-	public static final int invalid_grant				=9;
-	public static final int invalid_client				=10;
-	public static final int unsupported_grant_type      =11;
+	public static final int invalid_token				=7;
+	public static final int server_error				=8;
+	public static final int temporarily_unavailable		=9;
+	public static final int invalid_grant				=10;
+	public static final int invalid_client				=11;
+	public static final int unsupported_grant_type      =12;
 	
 	protected int error;
 	protected String error_description;
@@ -49,6 +50,7 @@ public class ErrorInfo {
 		if (OAuthConstants.INVALID_GRANT.equals(id)) 				error=invalid_grant;
 		if (OAuthConstants.INVALID_CLIENT.equals(id)) 				error=invalid_client;
 		if (OAuthConstants.INVALID_SCOPE.equals(id)) 				error=invalid_scope;
+		if (OAuthConstants.INVALID_TOKEN.equals(id)) 				error=invalid_token;
 		if (OAuthConstants.UNSUPPORTED_GRANT_TYPE.equals(id)) 		error=unsupported_grant_type;
 		if (OAuthConstants.UNSUPPORTED_RESPONSE_TYPE.equals(id)) 	error=unsupported_response_type;
 		if (OAuthConstants.SERVER_ERROR.equals(id)) 				error=server_error;
