@@ -39,7 +39,7 @@ public class Server extends Thread {
 				 
 				 try{					 
 					 String m = r.readLine();
-					 System.out.println(m);
+					 //System.out.println(m);
 				 } catch (Exception e2){
 					 continue; //SSL Exception we catch there 
 				 }

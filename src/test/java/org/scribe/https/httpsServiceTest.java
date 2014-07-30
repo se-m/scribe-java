@@ -5,8 +5,6 @@ package org.scribe.https;
 import static org.junit.Assert.*;
 
 import java.io.ByteArrayInputStream;
-import java.io.PrintWriter;
-import java.io.StringWriter;
 import java.security.KeyStore;
 import java.security.cert.Certificate;
 import java.security.cert.CertificateFactory;
@@ -15,9 +13,7 @@ import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
 import javax.net.ssl.TrustManagerFactory;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.scribe.builder.ServiceBuilder;
@@ -26,6 +22,7 @@ import org.scribe.model.Request;
 import org.scribe.model.RequestTuner;
 import org.scribe.model.Token;
 import org.scribe.oauth.OAuth20ServiceImpl;
+import org.scribe.test.helpers.ExceptionsChecker;
 
 
 public class httpsServiceTest {
@@ -56,13 +53,7 @@ public class httpsServiceTest {
 			service.makeAccessTokenRequest(null);
 			fail();
 		}catch (org.scribe.exceptions.OAuthConnectionException e){
-			// stack trace as a string
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-			String s = sw.toString(); 
-			//System.out.print(s);
-			assertTrue(s.contains("SSLHandshakeException"));			
+			assertTrue(ExceptionsChecker.containString(e, "SSLHandshakeException"));			
 		}
 	}
 	
@@ -155,14 +146,8 @@ public class httpsServiceTest {
 		try{
 			service.makeAccessTokenRequest(tuner);
 			fail();
-		}catch (org.scribe.exceptions.OAuthConnectionException e){
-			// stack trace as a string
-			StringWriter sw = new StringWriter();
-			PrintWriter pw = new PrintWriter(sw);
-			e.printStackTrace(pw);
-			String s = sw.toString(); 
-			//System.out.print(s);
-			assertTrue(s.contains("SSLHandshakeException"));			
+		}catch (org.scribe.exceptions.OAuthConnectionException e){			
+			assertTrue(ExceptionsChecker.containString(e, "SSLHandshakeException"));			
 		}
 	}
 }

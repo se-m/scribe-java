@@ -3,8 +3,6 @@ package org.scribe.https;
 
 import org.scribe.builder.api.ApiFlow;
 import org.scribe.builder.api.DefaultApi20;
-import org.scribe.extractors.JsonTokenExtractor;
-import org.scribe.extractors.TokenExtractor;
 
 
 

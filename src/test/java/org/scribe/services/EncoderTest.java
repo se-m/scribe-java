@@ -3,9 +3,6 @@ package org.scribe.services;
 import static org.junit.Assert.*;
 
 import java.util.Arrays;
-
-import junit.framework.Assert;
-
 import org.junit.Test;
 
 public class EncoderTest {

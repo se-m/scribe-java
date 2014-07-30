@@ -2,7 +2,6 @@ package org.scribe.services;
 
 import java.lang.reflect.Method;
 
-import org.scribe.exceptions.OAuthSignatureException;
 
 public class DatatypeConverterEncoder extends Base64Encoder
 {
