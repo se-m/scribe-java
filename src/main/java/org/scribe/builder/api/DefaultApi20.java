@@ -87,6 +87,11 @@ public abstract class DefaultApi20 extends Api
   
   protected String getRefreshTokenEndpoint(){
 	  return getAccessTokenEndpoint();
+  }  
+  
+  public boolean checkForError (String body,int code){
+	  lastError = getErrorInfoExtractor().extract(body,code);
+	  return lastError.getError() == ErrorInfo.no_error;
   }
   
   public boolean checkForError (Response response){

@@ -97,6 +97,18 @@ public class OAuth20ServiceImpl implements OAuthService
   {
     request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, accessToken.getToken());
   }
+  
+  public void signRequest (OAuthRequest request){
+	  request.addQuerystringParameter(OAuthConstants.ACCESS_TOKEN, api.getAccessToken().getToken());
+  }
+  
+  public OAuthRequest createOAuthRequest (Verb method, String Url){
+	  return new OAuthRequest(method,Url);
+  }
+  
+  public Request createRequest (Verb method, String Url){
+	  return new Request(method,Url);
+  }
   /**
    * {@inheritDoc}
    */
