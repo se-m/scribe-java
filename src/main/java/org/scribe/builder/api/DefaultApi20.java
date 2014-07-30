@@ -154,7 +154,7 @@ public abstract class DefaultApi20 extends Api
 	  RequestParameterInserter params = getRequestParameterInserter(request);
 	  params.Add(OAuthConstants.GRAND_TYPE,"authorization_code");
 	  params.Add(OAuthConstants.CLIENT_ID, config.getApiKey());
-	  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+	  if (config.hasApiSecret())  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
 	  params.Add(OAuthConstants.CODE, auth_code);
 	  if (config.hasCallback()) params.Add(OAuthConstants.REDIRECT_URI, config.getCallback());
 	  if (config.hasScope()) params.Add(OAuthConstants.SCOPE, config.getScope());
@@ -173,7 +173,7 @@ public abstract class DefaultApi20 extends Api
 	  RequestParameterInserter params = getRequestParameterInserter(request);	  
 	  params.Add(OAuthConstants.GRAND_TYPE,"refresh_token");
 	  params.Add(OAuthConstants.CLIENT_ID, config.getApiKey());
-	  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+	  if (config.hasApiSecret()) params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
 	  params.Add(OAuthConstants.REFRESH_TOKEN, refreshToken.getToken());	 
 	  return request;	  
   }
@@ -191,7 +191,7 @@ public abstract class DefaultApi20 extends Api
 	  RequestParameterInserter params = getRequestParameterInserter(request);
 	  params.Add(OAuthConstants.GRAND_TYPE,"password");
 	  params.Add(OAuthConstants.CLIENT_ID, config.getApiKey());
-	  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
+	  if (config.hasApiSecret()) params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());
 	  params.Add("username", username);
 	  params.Add("password", password);
 	  if (config.hasScope()) params.Add(OAuthConstants.SCOPE, config.getScope());	  
@@ -210,7 +210,7 @@ public abstract class DefaultApi20 extends Api
 	  RequestParameterInserter params = getRequestParameterInserter(request);
 	  params.Add(OAuthConstants.GRAND_TYPE,"client_credentials");
 	  params.Add(OAuthConstants.CLIENT_ID, config.getApiKey());
-	  params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());	  
+	  if (config.hasApiSecret()) params.Add(OAuthConstants.CLIENT_SECRET, config.getApiSecret());	  
 	  if (config.hasScope()) params.Add(OAuthConstants.SCOPE, config.getScope());
 	  return request;
   }

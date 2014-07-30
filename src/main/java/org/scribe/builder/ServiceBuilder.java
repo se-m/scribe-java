@@ -18,7 +18,7 @@ import org.scribe.utils.*;
 public class ServiceBuilder
 {
   private String apiKey;
-  private String apiSecret;
+  private String apiSecret=null;
   private String callback;
   private Api api;
   private String scope;
@@ -164,7 +164,7 @@ public class ServiceBuilder
   public OAuthService build(){
 	  Preconditions.checkNotNull(api, "You must specify a valid api through the provider() method");
 	    Preconditions.checkEmptyString(apiKey, "You must provide an api key");
-	    Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");    
+	    //Preconditions.checkEmptyString(apiSecret, "You must provide an api secret");  //apiSecret can be not set (null)  
 	    return api.createService(new OAuthConfig(apiKey, apiSecret, callback, signatureType, scope, debugStream));
   }
   

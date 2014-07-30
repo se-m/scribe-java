@@ -6,6 +6,7 @@ import org.junit.*;
 import org.scribe.builder.api.*;
 import org.scribe.model.*;
 import org.scribe.oauth.*;
+import org.scribe.test.helpers.ExceptionsChecker;
 
 public class ServiceBuilderTest
 {
@@ -34,6 +35,40 @@ public class ServiceBuilderTest
     assertEquals(ApiMock.config.getApiKey(), "key");
     assertEquals(ApiMock.config.getApiSecret(), "secret");
     assertEquals(ApiMock.config.getCallback(), "http://example.com");
+  }
+  
+  @Test
+  public void shouldBuildWithoutApiSecret()
+  {
+    builder.provider(ApiMock.class).apiKey("key").callback("http://example.com").build();
+    assertEquals(ApiMock.config.getApiKey(), "key");
+    assertFalse(ApiMock.config.hasApiSecret());
+    assertEquals(ApiMock.config.getApiSecret(), null);
+    assertEquals(ApiMock.config.getCallback(), "http://example.com");
+  }
+  
+  //if secret empty - don't pass it. If you pass secret - it must be not empty.
+  @Test
+  public void shouldNotAcceptEmptySecret()
+  {
+		try{
+			builder.provider(ApiMock.class).apiKey("key").apiSecret("").callback("http://example.com").build();
+			fail("Exception expecting");
+		}catch (IllegalArgumentException e){
+			assertTrue(ExceptionsChecker.containString(e, "Invalid Api secret"));
+		}catch (Exception e){
+			fail("IllegalArgumentException expecting");
+		}
+  
+		
+		try{
+			builder.provider(ApiMock.class).apiKey("key").apiSecret(null).callback("http://example.com").build();
+			fail("Exception expecting");
+		}catch (IllegalArgumentException e){
+			assertTrue(ExceptionsChecker.containString(e, "Invalid Api secret"));
+		}catch (Exception e){
+			fail("IllegalArgumentException expecting");
+		}  
   }
 
   @Test

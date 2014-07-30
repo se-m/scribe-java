@@ -40,6 +40,10 @@ public class OAuthConfig
   {
     return apiSecret;
   }
+  
+  public boolean hasApiSecret(){
+	  return apiSecret!=null;
+  }
 
   public boolean hasCallback(){
 	  return ((callback!=null) && (!"".equals(callback)));
