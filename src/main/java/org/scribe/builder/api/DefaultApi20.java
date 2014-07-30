@@ -70,7 +70,7 @@ public abstract class DefaultApi20 extends Api
    */
   protected Verb getAccessTokenVerb()
   {
-    return Verb.GET;
+    return Verb.POST;
   }
   
   protected Verb getRefreshTokenVerb()
