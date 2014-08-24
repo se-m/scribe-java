@@ -183,8 +183,7 @@ class SSLRequestTuner extends RequestTuner{
 			context.init(null, tmf.getTrustManagers(), null);			
 			((HttpsURLConnection) this.getConnection(request)).setSSLSocketFactory(context.getSocketFactory());
 			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {			
 			e.printStackTrace();
 			fail();		
 		}

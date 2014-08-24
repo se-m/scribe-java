@@ -51,8 +51,7 @@ public class ResponseTest
     	assertEquals(8,response.getStream().available());
     	assertEquals("contents", response.getBody());
 		assertEquals(0,response.getStream().available());
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
+	} catch (IOException e) {	
 		fail();
 		e.printStackTrace();
 	}  
@@ -81,8 +80,7 @@ public class ResponseTest
     	assertEquals(68*1024,response.getStream().available());
     	assertEquals(new String(a68kb), response.getBody());
 		
-	} catch (IOException e) {
-		// TODO Auto-generated catch block
+	} catch (IOException e) {		
 		fail();
 		e.printStackTrace();
 	}  

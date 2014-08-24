@@ -204,14 +204,12 @@ public class OAuth10aServiceImpl implements OAuthService
 	}
 
 	@Override
-	public void tuneBeforeSend(Request request) {
-		// TODO Auto-generated method stub
+	public void tuneBeforeSend(Request request) {		
 		
 	}
 
 	@Override
-	public void tuneBeforeResponse(Request request) {
-		// TODO Auto-generated method stub
+	public void tuneBeforeResponse(Request request) {		
 		
 	}
   }

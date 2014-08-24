@@ -109,7 +109,9 @@ public class Request
     }    
     
     addHeaders(connection);
-    if (verb.equals(Verb.PUT) || verb.equals(Verb.POST))
+    if (	(verb.equals(Verb.PUT) || (verb.equals(Verb.POST))) 
+    	&&  ((tuner==null) || (!tuner.overrideBodySending()))
+       )
     {
       addBody(connection, getByteBodyContents());
     }
